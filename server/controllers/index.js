@@ -10,11 +10,9 @@ module.exports = {
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       //post body data
-      console.log(req.body);
       models.messages.post(req.body, function(err, data){
-        console.log('sent!');
+        res.sendStatus(200)
       });
-
     } // a function which handles posting a message to the database
   },
 
