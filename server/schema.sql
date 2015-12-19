@@ -2,20 +2,20 @@ CREATE DATABASE chat;
 
 USE chat;
 CREATE TABLE users (
-  id int NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
   name TEXT,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE rooms (
-  id int NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
   name TEXT,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE messages (
   /* Describe your table here.*/
-  id int NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
   created_at DATETIME NOT NULL DEFAULT NOW(), 
   msg_text TEXT, 
   room_id int, 
