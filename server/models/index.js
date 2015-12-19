@@ -2,10 +2,11 @@ var db = require('../db');
 
 module.exports = {
   messages: {
-    get: function () {
+    get: function (done) {
       db.connection.query('SELECT * from messages', function(err, rows, fields) {
         if (!err)
-          return rows;
+          done(null, rows);
+          // return rows;
         else
           console.log('Error while performing Query.');
       });

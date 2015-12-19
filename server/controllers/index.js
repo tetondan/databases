@@ -3,8 +3,10 @@ var models = require('../models');
 module.exports = {
   messages: {
     get: function (req, res) {
-      var data = models.messages.get();
-      console.log(data);
+      var data = models.messages.get(function(err, data){
+        console.log(data)
+      });
+      // res.success(console.log(data));
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       //post body data
