@@ -5,7 +5,7 @@ var app = {
   //to all messages sent by the user
   server: 'http://127.0.0.1:3000/classes/messages',
   username: 'anonymous',
-  roomname: 'lobby',
+  roomname: 'Lobby',
   lastMessageId: 0,
   friends: {},
 
@@ -59,25 +59,26 @@ var app = {
       url: app.server,
       type: 'GET',
       contentType: 'application/json',
-      // data: { order: '-createdAt'},
+      data: { order: '-createdAt'},
       success: function(data) {
+        
         // Don't bother if we have nothing to work with
-        if (!data.results || !data.results.length) { return; }
+        if (!data || !data.length) { return; }
 
         // Get the last message
-        var mostRecentMessage = data.results[data.results.length-1];
+        var mostRecentMessage = data[data.length-1];
         var displayedRoom = $('.chat span').first().data('roomname');
         app.stopSpinner();
         // Only bother updating the DOM if we have a new message
-        if (mostRecentMessage.objectId !== app.lastMessageId || app.roomname !== displayedRoom) {
+        if (mostRecentMessage.id !== app.lastMessageId || app.roomname !== displayedRoom) {
           // Update the UI with the fetched rooms
-          app.populateRooms(data.results);
+          app.populateRooms(data);
 
           // Update the UI with the fetched messages
-          app.populateMessages(data.results, animate);
+          app.populateMessages(data, animate);
 
           // Store the ID of the most recent message
-          app.lastMessageId = mostRecentMessage.objectId;
+          app.lastMessageId = mostRecentMessage.id;
         }
       },
       error: function(data) {
@@ -92,7 +93,7 @@ var app = {
 
   populateMessages: function(results, animate) {
     // Clear existing messages
-
+    console.log('redrawing');
     app.clearMessages();
     app.stopSpinner();
     if (Array.isArray(results)) {
@@ -113,7 +114,7 @@ var app = {
   },
 
   populateRooms: function(results) {
-    app.$roomSelect.html('<option value="__newRoom">New room...</option><option value="" selected>Lobby</option></select>');
+    // app.$roomSelect.html('<option value="__newRoom">New room...</option><option value="" selected>Lobby</option></select>');
 
     if (results) {
       var rooms = {};
@@ -143,7 +144,7 @@ var app = {
 
   addMessage: function(data) {
     if (!data.roomname)
-      data.roomname = 'lobby';
+      data.roomname = 'Lobby';
 
     // Only add messages that are in our current room
     if (data.roomname === app.roomname) {
@@ -215,7 +216,7 @@ var app = {
     var message = {
       username: app.username,
       text: app.$message.val(),
-      roomname: app.roomname || 'lobby'
+      roomname: app.roomname || 'Lobby'
     };
 
     app.send(message);

@@ -12,7 +12,13 @@ module.exports = {
       });
       // db.connection.end();
     }, // a function which produces all the messages
-    post: function () {} // a function which can be used to insert a message into the database
+    post: function (obj, done) {
+      values = [obj.username, obj.text, obj.roomname];
+      db.connection.query('INSERT INTO messages (username, text, roomname) VALUES(?, ?, ?)', values, function(err, result) {
+        if (err) return done(err);
+        done(null, result.insertId);
+      })
+    } // a function which can be used to insert a message into the database
   },
 
   users: {
